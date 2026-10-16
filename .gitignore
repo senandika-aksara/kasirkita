@@ -1,0 +1,41 @@
+# ── KasirKita — ignore tingkat root ──
+# Catatan: laravel/.gitignore bawaan Laravel sudah menangani isi folder laravel/.
+# Aturan di sini adalah jaring pengaman tambahan + hal-hal di luar folder laravel/.
+
+# Dependensi (jangan pernah di-commit — anggota lain pasang sendiri)
+laravel/vendor/
+laravel/node_modules/
+
+# Kredensial & konfigurasi lokal (AGENTS.md §8.8)
+laravel/.env
+laravel/.env.backup
+laravel/.env.production
+laravel/auth.json
+laravel/storage/*.key
+
+# Hasil build & cache
+laravel/public/build/
+laravel/public/hot
+laravel/public/storage
+laravel/storage/framework/cache/data/*
+laravel/storage/logs/*.log
+laravel/.phpunit.cache/
+laravel/.phpunit.result.cache
+
+# Database lokal (data uji, bukan sumber kebenaran)
+laravel/database/*.sqlite
+laravel/database/*.sqlite-shm
+laravel/database/*.sqlite-wal
+*.sql
+*.sql.gz
+
+# Editor & OS
+.idea/
+.vscode/
+.fleet/
+.nova/
+.zed/
+*.swp
+.DS_Store
+Thumbs.db
+desktop.ini
