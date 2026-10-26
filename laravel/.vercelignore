@@ -9,4 +9,3 @@ storage/framework/views/*
 !.env.example
 .phpunit.result.cache
 public/storage
-vendor

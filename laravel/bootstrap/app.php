@@ -40,7 +40,7 @@ return Application::configure(basePath: dirname(__DIR__))
          * selalu muat utuh, jadi galat produksi bisa dikenali dari Runtime Logs
          * dengan mencari "[KK]".
          */
-        $exceptions->report(function (\Throwable $e): bool {
+        $exceptions->report(function (\Throwable $e): void {
             error_log(sprintf(
                 "[KK] %s: %s @ %s:%d",
                 $e::class,
@@ -48,9 +48,5 @@ return Application::configure(basePath: dirname(__DIR__))
                 $e->getFile(),
                 $e->getLine(),
             ));
-
-            // SEMENTARA: tahan pelaporan bawaan agar entri log hanya
-            // berisi baris pendek di atas dan tidak dipangkas Vercel.
-            return false;
         });
     })->create();

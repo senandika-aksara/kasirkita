@@ -215,6 +215,7 @@ log dibaca lewat **Vercel → Deployment → Runtime Logs**.
 | Gejala | Penyebab | Solusi |
 |---|---|---|
 | `composer: command not found` (build gagal, exit 127) | `vercel.json` memanggil `composer` sendiri | Jangan panggil composer di `installCommand`. Runtime `vercel-php` sudah menjalankan `composer install` otomatis saat membangun fungsi. Isi `installCommand` cukup `npm ci` |
+| `View [vendor.pagination.kasirkita] not found` (500) | Baris `vendor` polos di `.vercelignore` cocok dengan folder bernama `vendor` di kedalaman mana pun — termasuk `resources/views/vendor/`, tempat tampilan paginasi kustom | Jangan tulis `vendor` polos di `.vercelignore`. Folder Composer `vendor/` memang tidak pernah ikut terunggah karena sudah diabaikan git |
 | `Target class [view] does not exist` (500, body kosong) | `bootstrap/cache/packages.php` tidak ikut terbundel, dan Laravel tidak bisa membuatnya karena berkas di Vercel read-only | `api/index.php` mengalihkan `APP_PACKAGES_CACHE` & `APP_SERVICES_CACHE` ke `/tmp/storage/bootstrap`. Jangan hapus bagian itu |
 | Halaman tampil polos, konsol browser menyebut *mixed content* | Proxy Vercel mengakhiri TLS lalu meneruskan sebagai http, sehingga URL aset jadi `http://` di halaman `https://` | `trustProxies(at: "*")` di `bootstrap/app.php` |
 | Alamat `nama-proyek.vercel.app` membuka situs milik orang lain | Nama subdomain sudah dipakai akun lain; Vercel memberi akhiran (mis. `-gamma`) | Pakai domain yang tertera di **Project → Settings → Domains**, lalu samakan `APP_URL` dengan domain itu |
