@@ -84,19 +84,32 @@ return [
             ]) : [],
         ],
 
+        /*
+         * Dipakai untuk Supabase (PostgreSQL) saat aplikasi dijalankan di Vercel.
+         * Lihat docs/11-deploy-supabase-vercel.md untuk nilai setiap variabel.
+         */
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DB_URL'),
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '5432'),
-            'database' => env('DB_DATABASE', 'laravel'),
-            'username' => env('DB_USERNAME', 'root'),
+            'database' => env('DB_DATABASE', 'postgres'),
+            'username' => env('DB_USERNAME', 'postgres'),
             'password' => env('DB_PASSWORD', ''),
             'charset' => env('DB_CHARSET', 'utf8'),
             'prefix' => '',
             'prefix_indexes' => true,
             'search_path' => 'public',
-            'sslmode' => env('DB_SSLMODE', 'prefer'),
+            // Supabase mewajibkan SSL.
+            'sslmode' => env('DB_SSLMODE', 'require'),
+            'options' => array_filter([
+                /*
+                 * Supavisor "transaction pooler" (port 6543) tidak mendukung
+                 * prepared statement milik server. Setel DB_EMULATE_PREPARES=true
+                 * bila memakai port 6543; biarkan false untuk "session pooler" (5432).
+                 */
+                PDO::ATTR_EMULATE_PREPARES => env('DB_EMULATE_PREPARES', false),
+            ], fn ($value) => $value !== null),
         ],
 
         'sqlsrv' => [
