@@ -112,6 +112,8 @@ dan **Vercel** (hosting). Langkah lengkap, variabel lingkungan, serta
 keterbatasan yang perlu dicatat di laporan ada di
 **[`docs/11-deploy-supabase-vercel.md`](docs/11-deploy-supabase-vercel.md)**.
 
+Versi daring yang sedang berjalan: <https://kasirkita-gamma.vercel.app>
+
 Ringkasnya: kode aplikasinya sama, yang berbeda hanya isi `.env`.
 
 ```dotenv

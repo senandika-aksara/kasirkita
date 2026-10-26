@@ -141,7 +141,7 @@ Periksa di Supabase **Table Editor** — harus ada tabel `users`, `categories`,
 | Berkas | Fungsi |
 |---|---|
 | `laravel/vercel.json` | Mengatur runtime `vercel-php`, perintah build, dan perutean |
-| `laravel/api/index.php` | Titik masuk; memindahkan folder `storage/` ke `/tmp` |
+| `laravel/api/index.php` | Titik masuk; memindahkan folder `storage/` **dan cache penemuan paket** ke `/tmp` |
 | `laravel/.vercelignore` | Mencegah berkas yang tidak perlu ikut terunggah |
 
 ### 5.2 Langkah deploy
@@ -215,6 +215,9 @@ log dibaca lewat **Vercel → Deployment → Runtime Logs**.
 | Gejala | Penyebab | Solusi |
 |---|---|---|
 | `composer: command not found` (build gagal, exit 127) | `vercel.json` memanggil `composer` sendiri | Jangan panggil composer di `installCommand`. Runtime `vercel-php` sudah menjalankan `composer install` otomatis saat membangun fungsi. Isi `installCommand` cukup `npm ci` |
+| `Target class [view] does not exist` (500, body kosong) | `bootstrap/cache/packages.php` tidak ikut terbundel, dan Laravel tidak bisa membuatnya karena berkas di Vercel read-only | `api/index.php` mengalihkan `APP_PACKAGES_CACHE` & `APP_SERVICES_CACHE` ke `/tmp/storage/bootstrap`. Jangan hapus bagian itu |
+| Halaman tampil polos, konsol browser menyebut *mixed content* | Proxy Vercel mengakhiri TLS lalu meneruskan sebagai http, sehingga URL aset jadi `http://` di halaman `https://` | `trustProxies(at: "*")` di `bootstrap/app.php` |
+| Alamat `nama-proyek.vercel.app` membuka situs milik orang lain | Nama subdomain sudah dipakai akun lain; Vercel memberi akhiran (mis. `-gamma`) | Pakai domain yang tertera di **Project → Settings → Domains**, lalu samakan `APP_URL` dengan domain itu |
 | `could not find driver` | Ekstensi `pdo_pgsql` belum aktif | Lihat bagian 3 |
 | `prepared statement "..." already exists` | Memakai port 6543 tanpa emulasi | Set `DB_EMULATE_PREPARES=true` |
 | `SSL connection is required` | SSL belum diaktifkan | Set `DB_SSLMODE=require` |
