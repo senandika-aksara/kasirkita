@@ -16,6 +16,35 @@ class SqlDialect
         return DB::connection($connection)->getDriverName();
     }
 
+    /**
+     * Menyelaraskan sequence auto-increment PostgreSQL dengan nilai id terbesar
+     * di tabel. Diperlukan setelah menyisipkan baris dengan id EKSPLISIT (mis.
+     * seeder data contoh): MySQL menaikkan AUTO_INCREMENT sendiri saat id manual
+     * dimasukkan, tetapi PostgreSQL tidak menggeser sequence-nya — sehingga INSERT
+     * berikutnya memakai id yang sudah ada dan gagal dengan "duplicate key value
+     * violates unique constraint". Di MySQL fungsi ini tidak melakukan apa-apa.
+     */
+    public static function resetSequence(string $table, string $column = 'id'): void
+    {
+        if (self::driver() !== 'pgsql') {
+            return;
+        }
+
+        $sequence = DB::selectOne(
+            'SELECT pg_get_serial_sequence(?, ?) AS seq',
+            [$table, $column]
+        )?->seq;
+
+        if (! $sequence) {
+            return;
+        }
+
+        $max = (int) (DB::table($table)->max($column) ?? 0);
+
+        // Parameter ketiga true => nextval berikutnya = max + 1.
+        DB::select('SELECT setval(?, ?, true)', [$sequence, max($max, 1)]);
+    }
+
     /** Mengambil bagian tanggal dari kolom timestamp. */
     public static function dateOf(string $column): string
     {

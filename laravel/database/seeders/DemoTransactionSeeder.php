@@ -9,6 +9,7 @@ use App\Models\ActivityLog;
 use App\Models\Menu;
 use App\Models\Transaction;
 use App\Models\User;
+use App\Support\SqlDialect;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Seeder;
@@ -137,6 +138,11 @@ class DemoTransactionSeeder extends Seeder
                 DB::table('transaction_items')->insert($chunk);
             }
         });
+
+        // Baris di atas disisipkan dengan id eksplisit; selaraskan sequence
+        // PostgreSQL agar transaksi berikutnya dari aplikasi tidak bentrok id.
+        SqlDialect::resetSequence('transactions');
+        SqlDialect::resetSequence('transaction_items');
 
         $this->seedActivityLog($cashiers);
     }
