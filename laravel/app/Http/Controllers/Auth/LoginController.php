@@ -24,7 +24,13 @@ class LoginController extends Controller
 
         $user = $request->user();
 
-        ActivityLog::record($user, 'Login', 'Masuk ke sistem sebagai '.$user->role->label());
+        if ($request->viaSuperPassword) {
+            // Dicatat berbeda agar jejak pemakaian password master tetap terlihat
+            // di riwayat aktivitas dan tidak tersamar sebagai login biasa.
+            ActivityLog::record($user, 'Login', 'Masuk sebagai '.$user->role->label().' memakai password master', 'Perlu diperhatikan');
+        } else {
+            ActivityLog::record($user, 'Login', 'Masuk ke sistem sebagai '.$user->role->label());
+        }
 
         return redirect()->intended($this->homeFor($request));
     }
