@@ -33,5 +33,20 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->redirectGuestsTo(fn () => route('login'));
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        /*
+         * Vercel memotong baris log yang panjang dan hanya menyisakan ekornya,
+         * sehingga pesan galat yang sebenarnya tidak pernah terbaca — yang tampak
+         * hanya bingkai stack trace paling luar. Baris ringkas berpenanda ini
+         * selalu muat utuh, jadi galat produksi bisa dikenali dari Runtime Logs
+         * dengan mencari "[KK]".
+         */
+        $exceptions->report(function (\Throwable $e): void {
+            error_log(sprintf(
+                "[KK] %s: %s @ %s:%d",
+                $e::class,
+                $e->getMessage(),
+                $e->getFile(),
+                $e->getLine(),
+            ));
+        });
     })->create();
