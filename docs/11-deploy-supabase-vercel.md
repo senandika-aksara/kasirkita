@@ -56,6 +56,23 @@ Catat: `host`, `port`, `database` (biasanya `postgres`), `user`
    Catat **Access key ID** dan **Secret access key** (hanya tampil sekali).
 3. Catat juga **Endpoint** dan **Region** yang tertera di halaman itu.
 
+> **Perhatikan host endpoint-nya.** Supabase memakai
+> `https://<ref-proyek>.storage.supabase.co/...` — ada kata **`storage`**
+> sebelum `supabase.co`. Ini berbeda dari host REST biasa
+> (`<ref-proyek>.supabase.co`). Salin apa adanya dari halaman S3 Configuration;
+> kalau salah, unggahan foto gagal tanpa pesan yang jelas.
+
+### 2.4 Mematikan Data API (dianjurkan)
+
+KasirKita menyambung ke PostgreSQL secara langsung lewat Laravel dan **tidak
+memakai Data API** (PostgREST / `supabase-js`). Bila Data API dibiarkan aktif
+tanpa RLS, seluruh tabel — termasuk `users` dan `transactions` — dapat dibaca
+dari internet melalui endpoint REST publik.
+
+Matikan saat membuat proyek: hapus centang **Enable Data API** di bagian
+Security. Untuk proyek yang sudah terlanjur dibuat:
+**Project Settings → API → Data API → nonaktifkan**.
+
 ---
 
 ## 3. Menyiapkan komputer lokal
@@ -162,8 +179,8 @@ LOG_CHANNEL=stderr
 
 # Foto menu & pengguna disimpan di Supabase Storage
 UPLOAD_DISK=supabase
-SUPABASE_S3_ENDPOINT=https://xxxxxxxxxxxx.supabase.co/storage/v1/s3
-SUPABASE_S3_URL=https://xxxxxxxxxxxx.supabase.co/storage/v1/object/public/kasirkita
+SUPABASE_S3_ENDPOINT=https://<ref-proyek>.storage.supabase.co/storage/v1/s3
+SUPABASE_S3_URL=https://<ref-proyek>.storage.supabase.co/storage/v1/object/public/kasirkita
 SUPABASE_S3_REGION=ap-southeast-1
 SUPABASE_S3_BUCKET=kasirkita
 SUPABASE_S3_ACCESS_KEY_ID=<access key dari Supabase>
@@ -197,6 +214,7 @@ log dibaca lewat **Vercel → Deployment → Runtime Logs**.
 
 | Gejala | Penyebab | Solusi |
 |---|---|---|
+| `composer: command not found` (build gagal, exit 127) | `vercel.json` memanggil `composer` sendiri | Jangan panggil composer di `installCommand`. Runtime `vercel-php` sudah menjalankan `composer install` otomatis saat membangun fungsi. Isi `installCommand` cukup `npm ci` |
 | `could not find driver` | Ekstensi `pdo_pgsql` belum aktif | Lihat bagian 3 |
 | `prepared statement "..." already exists` | Memakai port 6543 tanpa emulasi | Set `DB_EMULATE_PREPARES=true` |
 | `SSL connection is required` | SSL belum diaktifkan | Set `DB_SSLMODE=require` |
