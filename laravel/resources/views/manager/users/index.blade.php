@@ -202,8 +202,13 @@
                 <div class="rounded-lg border border-nav-600/25 bg-nav-100 px-4 py-3 text-sm text-nav-800">
                     <p class="font-bold uppercase tracking-wide">Informasi Level Akses</p>
                     <ul class="mt-1 list-inside list-disc space-y-0.5">
+<<<<<<< HEAD
                         <li><strong>Admin</strong> — akses penuh termasuk mengelola seluruh akun pengguna.</li>
                         <li><strong>Pemilik Usaha</strong> — dashboard, riwayat transaksi, kelola menu dan pengguna.</li>
+=======
+                        <li><strong>Superadmin</strong> — akses penuh termasuk mengelola seluruh akun pengguna.</li>
+                        <li><strong>Manajer</strong> — dashboard, riwayat transaksi, kelola menu dan pengguna.</li>
+>>>>>>> 967352ece77c129992614c2829f2f0e00550498f
                         <li><strong>Kasir</strong> — hanya mencatat transaksi dan menandainya lunas.</li>
                     </ul>
                 </div>
@@ -298,7 +303,11 @@
 
                     <template x-if="!detail.can_delete">
                         <p class="rounded-lg border border-warn-700/30 bg-warn-100 px-4 py-3 text-left text-sm text-warn-700">
+<<<<<<< HEAD
                             Pengguna ini <strong>tidak dapat dihapus</strong> — akun Anda sendiri, akun admin,
+=======
+                            Pengguna ini <strong>tidak dapat dihapus</strong> — akun Anda sendiri, akun superadmin,
+>>>>>>> 967352ece77c129992614c2829f2f0e00550498f
                             atau sudah memiliki transaksi tercatat. Ubah statusnya menjadi
                             <strong>Non-Aktif</strong> agar tidak bisa login.
                         </p>

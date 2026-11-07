@@ -11,8 +11,13 @@ enum UserRole: string
     public function label(): string
     {
         return match ($this) {
+<<<<<<< HEAD
             self::Superadmin => 'Admin',
             self::Manager => 'Pemilik Usaha',
+=======
+            self::Superadmin => 'Superadmin',
+            self::Manager => 'Manajer',
+>>>>>>> 967352ece77c129992614c2829f2f0e00550498f
             self::Cashier => 'Kasir',
         };
     }

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 <x-layouts.app title="Dashboard" :heading="'Dashboard ' . auth()->user()->role->label()">
+=======
+<x-layouts.app title="Dashboard" heading="Dashboard Manajer">
+>>>>>>> 967352ece77c129992614c2829f2f0e00550498f
 
     {{-- ============ KARTU RINGKASAN ============ --}}
     <div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">

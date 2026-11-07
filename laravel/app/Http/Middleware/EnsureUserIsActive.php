@@ -23,7 +23,11 @@ class EnsureUserIsActive
 
             return redirect()
                 ->route('login')
+<<<<<<< HEAD
                 ->withErrors(['username' => 'Akun Anda telah dinonaktifkan. Hubungi admin atau pemilik usaha.']);
+=======
+                ->withErrors(['username' => 'Akun Anda telah dinonaktifkan. Hubungi manajer.']);
+>>>>>>> 967352ece77c129992614c2829f2f0e00550498f
         }
 
         return $next($request);

@@ -10,6 +10,9 @@ laravel/node_modules/
 laravel/.env
 laravel/.env.backup
 laravel/.env.production
+laravel/.env.supabase
+laravel/.env.vercel
+laravel/.env.*.local
 laravel/auth.json
 laravel/storage/*.key
 
