@@ -94,11 +94,7 @@ class UserController extends Controller
         }
 
         if ($user->isSuperadmin() && ! $request->user()->isSuperadmin()) {
-<<<<<<< HEAD
             return back()->with('error', 'Hanya admin yang dapat mengubah akun admin.');
-=======
-            return back()->with('error', 'Hanya superadmin yang dapat mengubah akun superadmin.');
->>>>>>> 967352ece77c129992614c2829f2f0e00550498f
         }
 
         $user->fill($request->safe()->except(['photo', 'password']));
@@ -127,11 +123,7 @@ class UserController extends Controller
         }
 
         if ($user->isSuperadmin() && ! $request->user()->isSuperadmin()) {
-<<<<<<< HEAD
             return back()->with('error', 'Hanya admin yang dapat menghapus akun admin.');
-=======
-            return back()->with('error', 'Hanya superadmin yang dapat menghapus akun superadmin.');
->>>>>>> 967352ece77c129992614c2829f2f0e00550498f
         }
 
         // Kasir yang sudah punya transaksi tidak dihapus agar laporan tetap utuh.

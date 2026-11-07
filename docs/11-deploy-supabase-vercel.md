@@ -56,8 +56,6 @@ Catat: `host`, `port`, `database` (biasanya `postgres`), `user`
    Catat **Access key ID** dan **Secret access key** (hanya tampil sekali).
 3. Catat juga **Endpoint** dan **Region** yang tertera di halaman itu.
 
-<<<<<<< HEAD
-=======
 > **Perhatikan host endpoint-nya.** Supabase memakai
 > `https://<ref-proyek>.storage.supabase.co/...` — ada kata **`storage`**
 > sebelum `supabase.co`. Ini berbeda dari host REST biasa
@@ -75,7 +73,6 @@ Matikan saat membuat proyek: hapus centang **Enable Data API** di bagian
 Security. Untuk proyek yang sudah terlanjur dibuat:
 **Project Settings → API → Data API → nonaktifkan**.
 
->>>>>>> 967352ece77c129992614c2829f2f0e00550498f
 ---
 
 ## 3. Menyiapkan komputer lokal
@@ -144,11 +141,7 @@ Periksa di Supabase **Table Editor** — harus ada tabel `users`, `categories`,
 | Berkas | Fungsi |
 |---|---|
 | `laravel/vercel.json` | Mengatur runtime `vercel-php`, perintah build, dan perutean |
-<<<<<<< HEAD
-| `laravel/api/index.php` | Titik masuk; memindahkan folder `storage/` ke `/tmp` |
-=======
 | `laravel/api/index.php` | Titik masuk; memindahkan folder `storage/` **dan cache penemuan paket** ke `/tmp` |
->>>>>>> 967352ece77c129992614c2829f2f0e00550498f
 | `laravel/.vercelignore` | Mencegah berkas yang tidak perlu ikut terunggah |
 
 ### 5.2 Langkah deploy
@@ -186,13 +179,8 @@ LOG_CHANNEL=stderr
 
 # Foto menu & pengguna disimpan di Supabase Storage
 UPLOAD_DISK=supabase
-<<<<<<< HEAD
-SUPABASE_S3_ENDPOINT=https://xxxxxxxxxxxx.supabase.co/storage/v1/s3
-SUPABASE_S3_URL=https://xxxxxxxxxxxx.supabase.co/storage/v1/object/public/kasirkita
-=======
 SUPABASE_S3_ENDPOINT=https://<ref-proyek>.storage.supabase.co/storage/v1/s3
 SUPABASE_S3_URL=https://<ref-proyek>.storage.supabase.co/storage/v1/object/public/kasirkita
->>>>>>> 967352ece77c129992614c2829f2f0e00550498f
 SUPABASE_S3_REGION=ap-southeast-1
 SUPABASE_S3_BUCKET=kasirkita
 SUPABASE_S3_ACCESS_KEY_ID=<access key dari Supabase>
@@ -226,15 +214,12 @@ log dibaca lewat **Vercel → Deployment → Runtime Logs**.
 
 | Gejala | Penyebab | Solusi |
 |---|---|---|
-<<<<<<< HEAD
-=======
 | `composer: command not found` (build gagal, exit 127) | `vercel.json` memanggil `composer` sendiri | Jangan panggil composer di `installCommand`. Runtime `vercel-php` sudah menjalankan `composer install` otomatis saat membangun fungsi. Isi `installCommand` cukup `npm ci` |
 | `View [vendor.pagination.kasirkita] not found` (500) | Baris `vendor` polos di `.vercelignore` cocok dengan folder bernama `vendor` di kedalaman mana pun — termasuk `resources/views/vendor/`, tempat tampilan paginasi kustom | Jangan tulis `vendor` polos di `.vercelignore`. Folder Composer `vendor/` memang tidak pernah ikut terunggah karena sudah diabaikan git |
 | `Target class [view] does not exist` (500, body kosong) | `bootstrap/cache/packages.php` tidak ikut terbundel, dan Laravel tidak bisa membuatnya karena berkas di Vercel read-only | `api/index.php` mengalihkan `APP_PACKAGES_CACHE` & `APP_SERVICES_CACHE` ke `/tmp/storage/bootstrap`. Jangan hapus bagian itu |
 | Halaman tampil polos, konsol browser menyebut *mixed content* | Proxy Vercel mengakhiri TLS lalu meneruskan sebagai http, sehingga URL aset jadi `http://` di halaman `https://` | `trustProxies(at: "*")` di `bootstrap/app.php` |
 | Alamat `nama-proyek.vercel.app` membuka situs milik orang lain | Nama subdomain sudah dipakai akun lain; Vercel memberi akhiran (mis. `-gamma`) | Pakai domain yang tertera di **Project → Settings → Domains**, lalu samakan `APP_URL` dengan domain itu |
 | `duplicate key value violates unique constraint "transactions_pkey"` (500 saat simpan transaksi) | Seeder data contoh menyisipkan id EKSPLISIT; PostgreSQL tidak menggeser sequence auto-increment-nya (MySQL menggeser sendiri), sehingga INSERT dari aplikasi memakai id yang sudah ada | Seeder sudah memanggil `SqlDialect::resetSequence()` sesudah menyisipkan. Bila database terlanjur rusak: jalankan ulang `migrate:fresh --seed`, atau selaraskan manual `SELECT setval(pg_get_serial_sequence('transactions','id'), (SELECT MAX(id) FROM transactions));` untuk tiap tabel |
->>>>>>> 967352ece77c129992614c2829f2f0e00550498f
 | `could not find driver` | Ekstensi `pdo_pgsql` belum aktif | Lihat bagian 3 |
 | `prepared statement "..." already exists` | Memakai port 6543 tanpa emulasi | Set `DB_EMULATE_PREPARES=true` |
 | `SSL connection is required` | SSL belum diaktifkan | Set `DB_SSLMODE=require` |

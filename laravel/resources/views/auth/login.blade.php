@@ -74,11 +74,7 @@
             </div>
 
             <h1 class="text-2xl font-extrabold tracking-tight text-ink">Masuk ke sistem</h1>
-<<<<<<< HEAD
             <p class="mt-1.5 text-sm text-muted">Gunakan username dan password yang diberikan admin atau pemilik usaha.</p>
-=======
-            <p class="mt-1.5 text-sm text-muted">Gunakan username dan password yang diberikan manajer.</p>
->>>>>>> 967352ece77c129992614c2829f2f0e00550498f
 
             @if (session('status'))
                 <div class="mt-5 rounded-xl border border-brand-200 bg-brand-50 px-4 py-3 text-sm font-medium text-brand-700">
@@ -137,11 +133,7 @@
                                class="h-4 w-4 rounded border-line text-brand-600 focus:ring-brand-600">
                         Ingat saya
                     </label>
-<<<<<<< HEAD
                     <span class="text-xs text-muted">Lupa password? Hubungi admin atau pemilik usaha.</span>
-=======
-                    <span class="text-xs text-muted">Lupa password? Hubungi manajer.</span>
->>>>>>> 967352ece77c129992614c2829f2f0e00550498f
                 </div>
 
                 <x-button type="submit" variant="primary" size="lg" class="w-full" x-bind:disabled="sending">

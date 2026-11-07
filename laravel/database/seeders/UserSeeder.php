@@ -36,11 +36,7 @@ class UserSeeder extends Seeder
         }
 
         User::create([
-<<<<<<< HEAD
             'name' => env('ADMIN_NAME', 'Admin'),
-=======
-            'name' => env('ADMIN_NAME', 'Pemilik Usaha'),
->>>>>>> 967352ece77c129992614c2829f2f0e00550498f
             'username' => $username,
             'password' => $password,
             'role' => UserRole::Superadmin,
