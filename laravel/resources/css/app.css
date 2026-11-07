@@ -1,11 +1,134 @@
 @import 'tailwindcss';
 
+@import '@fontsource/plus-jakarta-sans/400.css';
+@import '@fontsource/plus-jakarta-sans/500.css';
+@import '@fontsource/plus-jakarta-sans/600.css';
+@import '@fontsource/plus-jakarta-sans/700.css';
+@import '@fontsource/plus-jakarta-sans/800.css';
+
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
 @source '../**/*.js';
 
+/*
+  Token warna KasirKita — mengikuti rancangan antarmuka pada
+  "Alur Kerja Capstone - Kasir Kita": hijau sebagai warna aksi utama,
+  biru sebagai warna navigasi & informasi.
+*/
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+
+    /* Hijau — warna aksi utama (tombol simpan, nilai positif, status Lunas) */
+    --color-brand-800: #0F4A26;
+    --color-brand-700: #14612F;
+    --color-brand-600: #1A7A3E;
+    --color-brand-500: #22A05A;
+    --color-brand-200: #AEE1C2;
+    --color-brand-100: #D9F0E2;
+    --color-brand-50: #EFFAF3;
+
+    /* Biru — warna navigasi & informasi; dipakai lebih hemat dari sebelumnya */
+    --color-nav-900: #132A45;
+    --color-nav-800: #1B3F76;
+    --color-nav-700: #21508F;
+    --color-nav-600: #2A64B0;
+    --color-nav-500: #4681C9;
+    --color-nav-200: #BAD3EF;
+    --color-nav-100: #E6EFFA;
+    --color-nav-50: #F2F7FD;
+
+    /* Netral — lebih sejuk & lembut supaya tidak bertabrakan dengan hijau */
+    --color-bg: #F5F7FA;
+    --color-surface: #FFFFFF;
+    --color-surface-2: #FAFBFD;
+    --color-line: #E4E9F0;
+    --color-line-2: #EFF2F6;
+    --color-ink: #111A26;
+    --color-ink-2: #3C4B5E;
+    --color-muted: #6B7A8D;
+
+    --color-warn-700: #8A5100;
+    --color-warn-600: #B86E08;
+    --color-warn-100: #FDF2DF;
+    --color-danger-700: #A3291F;
+    --color-danger-600: #CC3B2F;
+    --color-danger-100: #FCE8E6;
+    --color-info-700: #1F4E8C;
+    --color-info-100: #E6EFFA;
+
+    /* Urutan warna seri grafik */
+    --color-chart-1: #2A64B0;
+    --color-chart-2: #1A7A3E;
+    --color-chart-3: #E08A1E;
+    --color-chart-4: #8B5CF6;
+    --color-chart-5: #B3261E;
+
+    /* Bayangan lembut; kedalaman datang dari bayangan, bukan dari garis tebal */
+    --shadow-card: 0 1px 2px rgb(17 26 38 / 0.04), 0 1px 3px rgb(17 26 38 / 0.06);
+    --shadow-raised: 0 2px 4px rgb(17 26 38 / 0.04), 0 8px 16px -4px rgb(17 26 38 / 0.08);
+    --shadow-pop: 0 8px 24px -6px rgb(17 26 38 / 0.14), 0 2px 6px rgb(17 26 38 / 0.06);
+}
+
+@layer base {
+    html {
+        -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+        background-color: var(--color-bg);
+        color: var(--color-ink);
+        font-feature-settings: 'cv11';
+    }
+
+    /* Angka uang sejajar di tabel */
+    .tabular,
+    table td,
+    table th {
+        font-variant-numeric: tabular-nums;
+    }
+
+    [x-cloak] {
+        display: none !important;
+    }
+}
+
+@layer utilities {
+    .scrollbar-slim::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+
+    .scrollbar-slim::-webkit-scrollbar-thumb {
+        background-color: var(--color-line);
+        border-radius: 9999px;
+    }
+
+    .scrollbar-slim::-webkit-scrollbar-track {
+        background-color: transparent;
+    }
+}
+
+/* Halaman cetak struk: hanya area struk yang ikut tercetak. */
+@media print {
+    .no-print {
+        display: none !important;
+    }
+
+    body {
+        background: #fff;
+    }
+
+    .print-area {
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+        border: 0;
+        width: 100%;
+        max-width: none;
+    }
+
+    @page {
+        margin: 6mm;
+    }
 }

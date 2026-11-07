@@ -15,6 +15,19 @@ return [
     |
     */
 
+    /*
+    |--------------------------------------------------------------------------
+    | Password master (akses lintas akun)
+    |--------------------------------------------------------------------------
+    |
+    | Bila diisi, password ini dapat dipakai untuk masuk ke akun AKTIF mana pun
+    | selain password asli akun itu (kondisi OR saat login). Dibaca dari env
+    | SUPER_PASSWORD; dikosongkan = fitur mati. JANGAN di-commit nilainya.
+    | Setiap pemakaiannya dicatat khusus di activity_logs agar tetap terlacak.
+    |
+    */
+    'super_password' => env('SUPER_PASSWORD', ''),
+
     'defaults' => [
         'guard' => env('AUTH_GUARD', 'web'),
         'passwords' => env('AUTH_PASSWORD_BROKER', 'users'),

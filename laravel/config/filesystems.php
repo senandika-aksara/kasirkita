@@ -17,6 +17,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Disk Unggahan Berkas
+    |--------------------------------------------------------------------------
+    |
+    | Disk yang dipakai untuk menyimpan foto menu dan foto pengguna.
+    | Lokal memakai "public"; di Vercel diisi "supabase" karena sistem
+    | berkas serverless bersifat baca-saja.
+    |
+    */
+
+    'uploads' => env('UPLOAD_DISK', 'public'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Filesystem Disks
     |--------------------------------------------------------------------------
     |
@@ -38,10 +51,35 @@ return [
             'report' => false,
         ],
 
+        /*
+         * Disk "public" menyimpan foto menu & foto pengguna.
+         *
+         * - Lokal (XAMPP/Laragon)  : FILESYSTEM_DISK=public  -> folder storage/app/public
+         * - Vercel + Supabase      : FILESYSTEM_DISK=supabase -> Supabase Storage
+         *
+         * Di Vercel sistem berkas bersifat baca-saja, jadi unggahan WAJIB
+         * memakai disk "supabase". Lihat docs/11-deploy-supabase-vercel.md.
+         */
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
             'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/storage',
+            'visibility' => 'public',
+            'throw' => false,
+            'report' => false,
+        ],
+
+        'supabase' => [
+            'driver' => 's3',
+            'key' => env('SUPABASE_S3_ACCESS_KEY_ID'),
+            'secret' => env('SUPABASE_S3_SECRET_ACCESS_KEY'),
+            'region' => env('SUPABASE_S3_REGION', 'ap-southeast-1'),
+            'bucket' => env('SUPABASE_S3_BUCKET', 'kasirkita'),
+            // URL publik bucket: https://<ref>.supabase.co/storage/v1/object/public/<bucket>
+            'url' => env('SUPABASE_S3_URL'),
+            // Endpoint S3: https://<ref>.supabase.co/storage/v1/s3
+            'endpoint' => env('SUPABASE_S3_ENDPOINT'),
+            'use_path_style_endpoint' => true,
             'visibility' => 'public',
             'throw' => false,
             'report' => false,
